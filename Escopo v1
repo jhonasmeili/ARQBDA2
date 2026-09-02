@@ -1,0 +1,11 @@
+Escopo do projeto
+
+1. O Banco de Dados deverá armazenar dados sobre as Regiões, incluindo nome e ID
+
+2. O Banco de Dados deverá armazenar dados sobre as Unidades Federativas, incluindo nome, ID, e região a qual pertencem
+
+3. O Banco de Dados deverá armazenar dados sobre os municípios, incluindo nome, ID, e unidade federativa a qual pertencem
+
+4. O Banco de Dados deverá armazenar dados sobre os partidos políticos registrados no TSE, incluindo nome, sigla, e número eleitoral
+
+5. O Banco de Dados deverá armazenar o número de votos recebidos por cada partido por município
