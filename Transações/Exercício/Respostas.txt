@@ -1,0 +1,9 @@
+1. Uma por usuário, começando ambas no UPDATE. A o USER1 termina no COMMIT, e a do USER2 termina no ROLLBACK;
+
+2. A transação o USER2 fica bloqueda, pois o USER1 já está alterando a linha
+
+3. 515.555.1234, pois a transação do USER1 foi salva(COMMIT), e a do USER2 foi cancelada(ROLLBACK)
+
+4. Não, pois estariam em linhas diferentes
+
+5. 515.555.0000, pois o COMMIT do USER2 teria salvo esta alteração ao banco de dados
