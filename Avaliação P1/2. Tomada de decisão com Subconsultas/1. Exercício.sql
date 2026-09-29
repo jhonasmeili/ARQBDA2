@@ -1,0 +1,6 @@
+--Executar dentro da conexão TSEAdmin
+SELECT NOME_MUNICIPIO AS "Município", SIGLA_PARTIDO AS "Partido mais votado", VOTOS AS "Votos"
+FROM MUNICIPIO INNER JOIN VOTOS USING (ID_MUNICIPIO)
+INNER JOIN PARTIDO USING(NUMERO_PARTIDO)
+WHERE (ID_MUNICIPIO, VOTOS) IN (SELECT ID_MUNICIPIO, MAX(VOTOS) FROM VOTOS GROUP BY ID_MUNICIPIO);
+--Mostra o partido mais votado em um municipio e seu numero de votos
