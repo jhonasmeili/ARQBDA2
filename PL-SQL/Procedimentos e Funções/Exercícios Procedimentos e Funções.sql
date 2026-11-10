@@ -81,3 +81,84 @@ BEGIN
     DBMS_OUTPUT.put_line(fn_regiao_por_municipio(2927408));
 END;
 /
+
+--6
+CREATE OR REPLACE PROCEDURE pr_inserir_municipio (id_municipio_p tab_municipio.id_municipio%TYPE, nome_municipio tab_municipio.nome%TYPE, id_uf_p tab_uf.id_uf%TYPE)
+IS
+    teste tab_uf.id_uf%TYPE;
+BEGIN
+    SELECT id_uf INTO teste FROM tab_uf WHERE id_uf = id_uf_p;
+    INSERT INTO tab_municipio (id_municipio, nome, id_uf) VALUES (id_municipio_p, nome_municipio, id_uf_p);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20001, 'UF Inexistente');
+END;
+/
+
+EXECUTE pr_inserir_municipio(35001, 'Joânia', 60);
+EXECUTE pr_inserir_municipio(60001, 'Elefantia', 60);
+
+SELECT  * FROM tab_municipio WHERE id_municipio = 35001;
+SELECT  * FROM tab_municipio WHERE id_municipio = 60001;
+
+--7
+CREATE OR REPLACE PROCEDURE pr_migrar_municipios_uf(id_uf_in tab_uf.id_uf%TYPE, id_uf_out tab_uf.id_uf%TYPE)
+IS
+BEGIN
+    SAVEPOINT sv_pr_migrar_municipios_uf;
+    UPDATE tab_municipio SET id_uf = id_uf_out WHERE id_uf = id_uf_in;
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK TO SAVEPOINT sv_pr_migrar_municipios_uf;
+        RAISE_APPLICATION_ERROR(-20002, 'Erro desconhecido');
+END;
+/
+
+SELECT * FROM tab_uf;
+SELECT COUNT(*) FROM tab_municipio WHERE id_uf = 32;
+SELECT COUNT(*) FROM tab_municipio WHERE id_uf = 31;
+
+EXECUTE pr_migrar_municipios_uf(32, 31);
+
+--8
+CREATE OR REPLACE PROCEDURE pr_dashboard_regiao(id_regiao_in tab_regiao.id_regiao%TYPE)
+IS
+    v_nome_regiao tab_regiao.nome%TYPE;
+    v_total_ufs NUMBER;
+    v_total_municipios NUMBER;
+BEGIN
+    SELECT tab_regiao.nome, COUNT(DISTINCT id_uf), COUNT(DISTINCT id_municipio) INTO v_nome_regiao, v_total_ufs, v_total_municipios FROM tab_regiao LEFT JOIN tab_uf USING (id_regiao) LEFT JOIN tab_municipio USING (id_uf) WHERE id_regiao = id_regiao_in GROUP BY tab_regiao.nome;
+    DBMS_OUTPUT.PUT_LINE(v_nome_regiao);
+    DBMS_OUTPUT.PUT_LINE(v_total_ufs);
+    DBMS_OUTPUT.PUT_LINE(v_total_municipios);
+END;
+/
+
+EXECUTE pr_dashboard_regiao(5);
+
+--9
+CREATE OR REPLACE PROCEDURE pr_excluir_regiao_cascata(id_regiao_in tab_regiao.id_regiao%TYPE)
+IS
+BEGIN
+    DELETE FROM tab_municipio WHERE id_uf IN(SELECT id_uf FROM tab_regiao LEFT JOIN tab_uf USING (id_regiao) WHERE id_regiao = id_regiao_in);
+    DELETE FROM tab_uf WHERE id_regiao = id_regiao_in;
+    DELETE FROM tab_regiao WHERE id_regiao = id_regiao_in;
+END;
+/
+
+SELECT COUNT(*) FROM tab_municipio;
+SELECT * FROM tab_uf;
+SELECT * FROM tab_regiao;
+EXECUTE pr_excluir_regiao_cascata(1);
+
+--10
+CREATE OR REPLACE PROCEDURE pr_normalizar_nomes_municipios
+IS
+BEGIN
+    UPDATE tab_municipio SET nome = UPPER(TRIM(nome));
+END;
+/
+
+EXECUTE pr_normalizar_nomes_municipios;
+SELECT * FROM tab_municipio;
