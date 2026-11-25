@@ -3,6 +3,7 @@
 --------------------------------------------------------
 REM INSERTING into TSEADMIN.UF
 SET DEFINE OFF;
+Insert into TSEADMIN.UF (ID_UF,NOME_UF,SIGLA_UF,ID_REGIAO) values ('0','Brasil','BR','0');
 Insert into TSEADMIN.UF (ID_UF,NOME_UF,SIGLA_UF,ID_REGIAO) values ('11','Rondônia','RO','1');
 Insert into TSEADMIN.UF (ID_UF,NOME_UF,SIGLA_UF,ID_REGIAO) values ('12','Acre','AC','1');
 Insert into TSEADMIN.UF (ID_UF,NOME_UF,SIGLA_UF,ID_REGIAO) values ('13','Amazonas','AM','1');
