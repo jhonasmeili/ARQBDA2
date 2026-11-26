@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  Arquivo criado - quarta-feira-novembro-25-2026   
+--  Arquivo criado - quinta-feira-novembro-26-2026   
 --------------------------------------------------------
 REM INSERTING into TSEADMIN.CARGO
 SET DEFINE OFF;
@@ -13,3 +13,6 @@ Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('7','Deputado Estadual'
 Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('8','Deputado Distrital');
 Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('9','1. Suplente');
 Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('10','2. Suplente');
+Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('60','Legenda Deputado Federal');
+Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('70','Legenda Deputado Estadual');
+Insert into TSEADMIN.CARGO (ID_CARGO,NOME_CARGO) values ('80','Legenda Deputado Estadual');
